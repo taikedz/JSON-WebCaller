@@ -1,6 +1,6 @@
 {
 	"api":"json",
-	"key":"",
+	"key":"mykey",
 
 	"actions":{
 		"list":{
@@ -21,6 +21,14 @@
 				"image":"22222654"
 			}
 		},
+		"snapshot":{
+			"url":"https://api.digitalocean.com/v2/droplets/$id/actions",
+			"method":"POST",
+			"requires":["type","name","id"],
+			"requestdata":{
+				"type":"snapshot"
+			}
+		},
 		"create-big":{
 			"url":"https://api.digitalocean.com/v2/droplets",
 			"method":"POST",
@@ -31,8 +39,8 @@
 				"image":"22222654"
 			}
 		},
-		"delete":{
-			"url":"https://api.digitalocean.com/v2/droplets",
+		"destroy":{
+			"url":"https://api.digitalocean.com/v2/droplets/$id",
 			"method":"DELETE",
 			"requires":["id"],
 			"requestdata":{
