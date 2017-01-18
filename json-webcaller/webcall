@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-# managedo JSONFILE ACTION [DATA ...]
-
 mainhelp = '''
 Call webservices defined using a JSON file of pre-populated default data
 
@@ -31,8 +29,10 @@ def requireargs(myargs, count, helptext):
         exit(3)
     return True
 
+# ===============
 requireargs(argv, 1, mainhelp)
 
+# Config Load
 
 try:
     jsonfilepath = config.getConfigPath(argv[1], "webservices.json")
@@ -40,6 +40,8 @@ try:
 except IOError as e:
     console.faile(str(e))
     exit(5)
+
+# API Load
 
 if "api" not in doconfig.data.keys():
     console.faile("No API engine specified.")
@@ -49,6 +51,9 @@ elif doconfig.data["api"] == "json":
 else:
     console.faile("API engine "+doconfig.data["api"]+" not supported.")
     exit(4)
+
+# ===================
+# Check for actions available - and helpfully list if user ommitted action
 
 actionlist = []
 for action in doconfig.data["actions"]:
@@ -62,6 +67,10 @@ try:
 except KeyError:
     console.faile("No such action "+targetaction)
     exit(1)
+
+# ===========================
+# Let the API and definitions handle the rest
+# for our part, alea jacta est.
 
 try:
     webapi.request(doconfig.data["key"], actionprofile, argv[3:] )
