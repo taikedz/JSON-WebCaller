@@ -3,3 +3,4 @@
 scratch/
 __pycache__/
 *.pyc
+demo.json
