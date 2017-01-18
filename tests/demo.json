@@ -1,0 +1,21 @@
+{
+	"actions": {
+		"merge": {
+			"requestdata": {
+				"array": [
+					{
+						"instrument": "mandolin",
+						"name": "tai"
+					},
+					{
+						"instrument": "guitar",
+						"name": "tom"
+					}
+				],
+				"first": 1,
+				"second": 2
+			}
+		}
+	},
+	"key": "12322ewfygjb"
+}

@@ -1,0 +1,42 @@
+{
+	"api":"json",
+	"key":"",
+
+	"actions":{
+		"list":{
+			"url":"https://api.digitalocean.com/v2/droplets",
+			"method":"GET"
+		},
+		"create":{
+			"url":"https://api.digitalocean.com/v2/droplets",
+			"method":"POST",
+			"requires":["region", "size", "image", "name"],
+			"requestdata":{
+				"region":"lon1",
+				"size":"512mb",
+				"image":"22222654"
+			}
+		},
+		"snapshot":{
+			"url":"https://api.digitalocean.com/v2/droplets",
+			"method":"GET",
+			"requestdata":{
+			},
+			"comment":"Not yet implemented"
+		},
+		"restore":{
+			"url":"https://api.digitalocean.com/v2/droplets",
+			"method":"GET",
+			"requestdata":{
+			},
+			"comment":"Not yet implemented"
+		},
+		"delete":{
+			"url":"https://api.digitalocean.com/v2/droplets",
+			"method":"DELETE",
+			"requires":["id"],
+			"requestdata":{
+			}
+		}
+	}
+}

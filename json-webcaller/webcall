@@ -1,0 +1,65 @@
+#!/usr/bin/python3
+
+# managedo JSONFILE ACTION [DATA ...]
+
+helptext = '''
+Call webservices defined using a JSON file of pre-populated default data
+
+    webcall JSONFILE ACTION [DATA ...]
+
+Reads a JSON file from where to obtain data, and runs the specified ACTION.
+
+Data is a series of key-value pairs to be applied at the top level of the request data.
+
+If JSONFILE is a folder, it will look for a "webservices.json" file in that folder.
+
+This allows these shorthands
+
+    webcall ~ create
+    webcall . create
+
+to look in the home directory and in the current directory respectively.
+
+'''
+
+from sys import argv
+import jsonfile, config, console
+
+import jsonapi as webapi
+
+def requireargs(myargs, count, helptext):
+    if len(myargs) < count+1:
+        console.printe(helptext)
+        exit(3)
+    return True
+
+requireargs(argv, 2, helptext)
+
+
+try:
+    jsonfilepath = config.getConfigPath(argv[1], "webservices.json")
+    doconfig = jsonfile.JSONFile(jsonfilepath)
+except IOError as e:
+    console.faile(str(e))
+    exit(5)
+
+if "api" not in doconfig.data.keys():
+    console.faile("No API engine specified.")
+    exit(3)
+elif doconfig.data["api"] == "json":
+    import jsonapi as webapi
+else:
+    console.faile("API engine "+doconfig.data["api"]+" not supported.")
+    exit(4)
+
+targetaction = argv[2]
+try:
+    actionprofile = doconfig.data["actions"][targetaction]
+except KeyError:
+    console.faile("No such action "+targetaction)
+    exit(1)
+
+try:
+    webapi.request(doconfig.data["key"], actionprofile, argv[3:] )
+except Exception as e:
+    console.faile(str(e) )
