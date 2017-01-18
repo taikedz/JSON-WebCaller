@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -u
+
+if which python3 >/dev/null; then
+	if [[ "$UID" = 0 ]]; then
+		libdir=/usr/local/lib
+		bindir=/usr/local/bin
+	else
+		libdir=$HOME/.local/lib
+		bindir=$HOME/.local/bin
+		mkdir -p "$libdir"
+		mkdir -p "$bindir"
+
+		if [[ ! "$PATH" =~ $(echo "$bindir") ]]; then
+			echo "PATH=$PATH:$bindir" >> "$HOME/.bashrc"
+		fi
+	fi
+
+	cp -r json-webcaller/ "$libdir"
+	ln -s "$libdir/json-webcaller/webcall" "$bindir/webcall"
+else
+	echo "You do not have python3. Aborting"
+	exit 1
+fi
+
+
