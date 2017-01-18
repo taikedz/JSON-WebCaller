@@ -1,4 +1,10 @@
-import requests, jsonfile, json, datacheck, sys, console
+import requests
+import jsonfile
+import json
+import datacheck
+import sys
+import console
+import re
 
 class WebAPIHTTPException(Exception):
     def __init__(self,msg):
@@ -21,23 +27,33 @@ def request(key, actionprofile, artefacts):
 
     try:
         datacheck.datacheck(actionprofile, rdata)
+        url = updateurl(url, rdata)
+
+    except datacheck.RequiredFieldException as e:
+        console.faile(str(e)+"\n")
+        return None
+
+    try:
 
         response = None
 
         if method == "GET":
             response = do_get(url,standard_headers)
+
         elif method == "POST":
             response = do_post(url, standard_headers, rdata)
+
         elif method == "DELETE":
-            response = do_delete(url+"/"+rdata["id"], standard_headers)
+            response = do_delete(url, standard_headers)
+
         else:
             raise WebAPIHTTPException("Unsupported HTTP method "+method)
 
         http_expect_class(200, response)
         print( json.dumps(jsonfor(response), indent=2) )
-
-    except datacheck.RequiredFieldException as e:
-        console.faile(str(e)+"\n")
+    except Exception as e:
+        console.faile(str(e) )
+        exit(127)
 
 
 def do_get(url,headers):
@@ -69,3 +85,11 @@ def jsonfor(response):
     except ValueError as e:
         console.printe(str(e) )
     return ""
+
+def updateurl(url, rdata):
+    for item in rdata:
+        patstr = "\\$%s\\b" % (item,)
+        founditem = re.match(".*"+patstr, url)
+        if founditem:
+           url = re.sub(patstr, str(rdata[item]), url)
+    return url
