@@ -92,4 +92,6 @@ def updateurl(url, rdata):
         founditem = re.match(".*"+patstr, url)
         if founditem:
            url = re.sub(patstr, str(rdata[item]), url)
+    if url.find("$") >= 0:
+        raise WebAPIHTTPException("There seem to be unsubstituted variables!")
     return url
