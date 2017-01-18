@@ -24,9 +24,17 @@
 		"snapshot":{
 			"url":"https://api.digitalocean.com/v2/droplets/$id/actions",
 			"method":"POST",
-			"requires":["type","name","id"],
+			"requires":["name"],
 			"requestdata":{
 				"type":"snapshot"
+			}
+		},
+		"restore":{
+			"url":"https://api.digitalocean.com/v2/droplets/$id/actions",
+			"method":"POST",
+			"requires":["image"],
+			"requestdata":{
+				"type":"restore"
 			}
 		},
 		"create-big":{
