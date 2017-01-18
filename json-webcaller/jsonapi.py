@@ -12,6 +12,8 @@ def request(key, actionprofile, artefacts):
     url = actionprofile["url"]
     method = actionprofile["method"]
     rdata = {}
+
+    # === Build up the data
     if "requestdata" in actionprofile.keys():
         rdata = actionprofile["requestdata"]
 
@@ -33,9 +35,9 @@ def request(key, actionprofile, artefacts):
 
         http_expect_class(200, response)
         print( json.dumps(jsonfor(response), indent=2) )
+
     except datacheck.RequiredFieldException as e:
-        sys.stderr.write(str(e)+"\n")
-        sys.stderr.flush()
+        console.faile(str(e)+"\n")
 
 
 def do_get(url,headers):
@@ -66,4 +68,4 @@ def jsonfor(response):
         return response.json()
     except ValueError as e:
         console.printe(str(e) )
-    return {"status":response.status_code}
+    return ""

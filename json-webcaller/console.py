@@ -1,3 +1,6 @@
+# Prefer to write to stderr so that the messages are not intermingeld with the output
+# In colour of course ;-)
+
 CDEF='[0m'
 
 from sys import stderr,stdin

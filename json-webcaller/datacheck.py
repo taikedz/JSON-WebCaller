@@ -4,7 +4,6 @@ class RequiredFieldException(Exception):
         Exception.__init__(self,msg)
 
 def datacheck(actionprofile, rdata):
-    # TODO - check for a "required" field, and see that rdata has them all
     datakeys = rdata.keys()
     if "requires" in actionprofile.keys():
         for requirement in actionprofile["requires"]:

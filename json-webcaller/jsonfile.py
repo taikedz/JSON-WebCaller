@@ -56,6 +56,7 @@ def readPath(jsondata, path):
     '''
     return drillToData(MREAD, jsondata, path)
 
+# TODO -- add a mode that forces the creation of a new element (for write mode)
 def descend(data, thekey):
     if (type(data) == dict and thekey in data.keys()) or (type(data) == list and thekey < len(data) ):
         return data[thekey]
