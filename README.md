@@ -58,6 +58,7 @@ The `id` information here will not be passed to the request data, instead it wil
 
 Still to implement:
 
+* output control (headers, json body) with filter patterns (grep or json pattern - with the latter, all results are combined to a single line, with tab separators)
 * writing new structures to the `requestdata` section (`webcall example.json list superkey.subkey=newvalue` will complain about an inexistent `superkey`, for example)
 * support for header definitions in the JSON and on the command line
 * example implementation for a different sort of API

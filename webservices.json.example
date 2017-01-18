@@ -5,10 +5,24 @@
 	"actions":{
 		"list":{
 			"url":"https://api.digitalocean.com/v2/droplets",
-			"method":"GET"
+			"method":"GET",
+			"output":{
+				"section":"body",
+				"filter":"json"
+				"patterns":[".droplets.name"]
+			}
 		},
+		"rate":{
+			"url":"https://api.digitalocean.com/v2/droplets",
+			"method":"HEAD",
+			"output":{
+				"section":"header",
+				"filter":"grep",
+				"pattern":"ratelimit"
+			}
+		}
 		"distros":{
-			"url":"https://api.digitalocean.com/v2/droplets?type=distribution",
+			"url":"https://api.digitalocean.com/v2/images?type=distribution&per_page=100",
 			"method":"GET"
 		},
 		"create":{
