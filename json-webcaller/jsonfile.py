@@ -83,10 +83,13 @@ def drillToData(action, jsondata, path, datavalue=None):
             locus = descend(locus, step )
             continue
 
+        target = descend(locus, step)
         if action == MREAD:
-            return locus[step]
+            return target
+
         elif action == MWRITE:
             locus[step] = datavalue
+
         else:
             raise JSONDataHandleException("Unknown operation")
 
