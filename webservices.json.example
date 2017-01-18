@@ -7,6 +7,10 @@
 			"url":"https://api.digitalocean.com/v2/droplets",
 			"method":"GET"
 		},
+		"distros":{
+			"url":"https://api.digitalocean.com/v2/droplets?type=distribution",
+			"method":"GET"
+		},
 		"create":{
 			"url":"https://api.digitalocean.com/v2/droplets",
 			"method":"POST",
@@ -17,19 +21,15 @@
 				"image":"22222654"
 			}
 		},
-		"snapshot":{
+		"create-big":{
 			"url":"https://api.digitalocean.com/v2/droplets",
-			"method":"GET",
+			"method":"POST",
+			"requires":["region", "size", "image", "name"],
 			"requestdata":{
-			},
-			"comment":"Not yet implemented"
-		},
-		"restore":{
-			"url":"https://api.digitalocean.com/v2/droplets",
-			"method":"GET",
-			"requestdata":{
-			},
-			"comment":"Not yet implemented"
+				"region":"lon1",
+				"size":"2gb",
+				"image":"22222654"
+			}
 		},
 		"delete":{
 			"url":"https://api.digitalocean.com/v2/droplets",
