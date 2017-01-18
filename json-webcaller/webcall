@@ -30,9 +30,9 @@ def requireargs(myargs, count, helptext):
     if len(myargs) < count+1:
         console.printe(helptext)
         exit(3)
-    return True
 
 # ===============
+
 requireargs(argv, 1, mainhelp)
 
 # Config Load
@@ -40,6 +40,7 @@ requireargs(argv, 1, mainhelp)
 try:
     jsonfilepath = config.getConfigPath(argv[1], "webservices.json")
     doconfig = jsonfile.JSONFile(jsonfilepath)
+
 except IOError as e:
     console.faile(str(e))
     exit(5)
