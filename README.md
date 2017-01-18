@@ -29,6 +29,12 @@ The following is a simple JSON file that specifies that the target web API expec
 					"image":"22222654"
 				}
 			}
+			"destroy":{
+				"url":"https://api.digitalocean.com/v2/droplets/$id",
+				"method":"DELETE",
+				"requestdata":{
+				}
+			}
 		}
 	}
 
@@ -42,14 +48,21 @@ Notably, the "create" action specifies that it needs the requesteddata section t
 
 This would append the data to the `requestdata` set.
 
+The `destroy` example shows the example of having placeholders in the URL - to pass the relevant information to the URL, use an assignment preceded by a "%":
+
+	webcall example.json destroy %id=123456
+
+The `id` information here will not be passed to the request data, instead it will be used to replace the relevant token for the request.
+
 ## Still to come
 
 Still to implement:
 
-* writing new structures to the `requesteddata` section (`webcall example.json superkey.subkey=newvalue` will complain about an inexistent `superkey`)
+* writing new structures to the `requestdata` section (`webcall example.json list superkey.subkey=newvalue` will complain about an inexistent `superkey`, for example)
 * support for header definitions in the JSON and on the command line
+* example implementation for a different sort of API
 
 ## License
 
-(C) Tai Kedzierski
+(C) 2017 Tai Kedzierski
 Provided to you under the terms of the GPLv3.0
