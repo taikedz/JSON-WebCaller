@@ -2,7 +2,7 @@
 
 # managedo JSONFILE ACTION [DATA ...]
 
-helptext = '''
+mainhelp = '''
 Call webservices defined using a JSON file of pre-populated default data
 
     webcall JSONFILE ACTION [DATA ...]
@@ -25,15 +25,13 @@ to look in the home directory and in the current directory respectively.
 from sys import argv
 import jsonfile, config, console
 
-import jsonapi as webapi
-
 def requireargs(myargs, count, helptext):
     if len(myargs) < count+1:
         console.printe(helptext)
         exit(3)
     return True
 
-requireargs(argv, 2, helptext)
+requireargs(argv, 1, mainhelp)
 
 
 try:
@@ -51,6 +49,12 @@ elif doconfig.data["api"] == "json":
 else:
     console.faile("API engine "+doconfig.data["api"]+" not supported.")
     exit(4)
+
+actionlist = []
+for action in doconfig.data["actions"]:
+    actionlist.append(action)
+
+requireargs(argv, 2, "Available options:\n\t%s" % ('\n\t'.join(actionlist),))
 
 targetaction = argv[2]
 try:
