@@ -42,8 +42,8 @@ class JSONFile:
 def mergeArtefacts(jsondata, artefacts):
     ''' Merge a bunch of json.path.key=value items into the specified jsondata
     '''
-    for item in artefacts:
-        apath, value = item.split('=',1)
+    for apath in artefacts.keys():
+        value = artefacts[apath]
         writePath(jsondata, apath, value)
 
 def writePath(jsondata, path, datavalue):

@@ -10,7 +10,7 @@ class WebAPIHTTPException(Exception):
     def __init__(self,msg):
         Exception.__init__(self,msg)
 
-def request(key, actionprofile, artefacts):
+def request(key, actionprofile, artefacts, urimodifiers):
     standard_headers = {
         "Authorization": "Bearer "+key,
         "Content-Type": "application/json"
@@ -27,7 +27,7 @@ def request(key, actionprofile, artefacts):
 
     try:
         datacheck.datacheck(actionprofile, rdata)
-        url = updateurl(url, rdata)
+        url = updateurl(url, urimodifiers)
 
     except datacheck.RequiredFieldException as e:
         console.faile(str(e)+"\n")

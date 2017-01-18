@@ -21,7 +21,10 @@ to look in the home directory and in the current directory respectively.
 '''
 
 from sys import argv
-import jsonfile, config, console
+import jsonfile
+import config
+import console
+import clisplitter
 
 def requireargs(myargs, count, helptext):
     if len(myargs) < count+1:
@@ -73,6 +76,7 @@ except KeyError:
 # for our part, alea jacta est.
 
 try:
-    webapi.request(doconfig.data["key"], actionprofile, argv[3:] )
+    artefacts, urimodifiers = clisplitter.splitout(argv[3:])
+    webapi.request(doconfig.data["key"], actionprofile, artefacts, urimodifiers )
 except Exception as e:
     console.faile(str(e) )

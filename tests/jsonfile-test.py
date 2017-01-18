@@ -16,7 +16,7 @@ try:
 except jsonfile.InvalidPathException as e:
     console.infoe("PASS Descend into non-existent branch on read")
 
-jsonfile.mergeArtefacts(jf.data, ["actions.create=newdata"])
+jsonfile.mergeArtefacts(jf.data, {"actions.create":"newdata"})
 testf.equal(jf.data["actions"]["create"], "newdata", "Assign new values")
 
 jf.writefile()
