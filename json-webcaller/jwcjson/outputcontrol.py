@@ -1,7 +1,10 @@
+import json
 
-        jsondata = jsonfor(response), indent=2
+def printout(actionprofile, response):
+        jsondata = jsonfor(response)
         if jsondata != None:
-            print( json.dumps( jsondata ) )
+            print( json.dumps( jsondata, indent=2 ) )
+
 def jsonfor(response):
     try:
         return response.json()

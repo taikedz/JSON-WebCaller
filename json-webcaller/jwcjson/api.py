@@ -1,6 +1,7 @@
 import requests
 import jsonfile
 import json
+import jwcjson.outputcontrol as outputcontrol
 import datacheck
 import sys
 import console
@@ -50,6 +51,8 @@ def request(key, actionprofile, artefacts, urimodifiers):
             raise WebAPIHTTPException("Unsupported HTTP method "+method)
 
         http_expect_class(200, response)
+
+        outputcontrol.printout(actionprofile, response)
 
     except Exception as e:
         console.faile(str(e) )
