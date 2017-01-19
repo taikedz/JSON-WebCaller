@@ -31,8 +31,10 @@ def readPath(jsondata, path):
 
 # TODO -- add a mode that forces the creation of a new element (for write mode)
 def descend(data, thekey, action=None):
-    if (type(data) == dict and thekey in data.keys()) or (type(data) == list and thekey < len(data) ):
+    if action == MREAD and (type(data) == dict and thekey in data.keys()) or (type(data) == list and thekey < len(data) ):
         return data[thekey]
+    elif action == MWRITE:
+        data[thekey] = {}
     raise InvalidPathException("Could not descend to "+str(thekey))
 
 def drillToDataPoint(action, jsondata, path, datavalue=None):
@@ -66,35 +68,66 @@ def drillToDataPoint(action, jsondata, path, datavalue=None):
         else:
             raise JSONDataHandleException("Unknown operation")
 
-def readDataTree(jsondata, path):
-    '''Drill down the data tree, finding matches
-    '''
-    newdata = {}
-    ndatacursor = newdata
-    datacursor = jsondata
-
+def getData(jsondata, path):
     steps = splitPath(path)
+    return readDataTree(jsondata, steps)
 
-    while len(steps) > 0:
-        step = steps.pop(0)
-        target = readDataItem(datacursor, step)
-        datacursor = datacursor[step]
+def writeDataPoint(jsondata, steps, value):
+    '''Drill down the data tree, and write the property at that location
 
-        if type(target) == list:
-            ndatacursor[step] = []
-            ndatacursor = ndatacursor[step]
-            for item in target:
-                ndatacursor.append( readDataTree(item, steps[:] ) )
-            return newdata
+    INCOMPLETE
+    '''
+    newdata = jsondata
+
+    for i in range(0,len(steps) ):
+        s = steps[i]
+        # if the item ends with [] or {}, create appropriate structure
+        if s[:-2] == '{}':
+            addDataStructure(newdata, s[:-2], {})
+        elif s[:-2] == '[]':
+            addDataStrcuture(newdata, s[:-2], [])
+        elif s != "":
+            newdata = newdata[s]
         else:
-            ndatacursor[step] = target
-            ndatacursor = ndatacursor[step]
+            array = newdata
+            newdata = []
+            for item in array:
+                newdata.append( readDataTree(item, steps[i+1:]) )
+            # at this point we have consumed the steps
+            return newdata
+
+    return newdata
+
+def addDataStructure(jsondata, label, newsubdata):
+    '''INCOMPLETE'''
+    if type(jsondata) == list:
+        if type(label) == int:
+            jsondata[label] = newsubdata
+        elif
+        jsondata.append(newsubdata)
+
+def readDataTree(jsondata, steps):
+    '''Drill down the data tree, until the match is found. Return the data structure at t he locaiton specified.
+    '''
+    newdata = jsondata
+
+    for i in range(0,len(steps) ):
+        s = steps[i]
+        print("Lookup %s"%(s,))
+        if s != "":
+            newdata = newdata[s]
+        else:
+            array = newdata
+            newdata = []
+            for item in array:
+                newdata.append( readDataTree(item, steps[i+1:]) )
+            # at this point we have consumed the steps
+            return newdata
 
     return newdata
 
 def splitPath(path):
-    if type(path) == list:
-        return path
+    # FIXME - what about nested arrays -- a[][].b ?
     if path.find("..") >= 0:
         raise JSONPathException("Cannot have consecutive '.' joiners (%s)"%(path,))
 
@@ -110,24 +143,5 @@ def splitPath(path):
             if m.group(2) != "":
                 newsteps.append(int(m.group(2)) )
             else:
-                newsteps.append("")
+                newsteps.append("") # FIXME nested arrays are somewhere here
     return newsteps
-
-def readDataItem(jsondata, step):
-    '''Given the data, and a step, return the appropriate result
-    '''
-    target = None
-    print("Read %s from %s"%(step,str(jsondata)))
-
-    try:
-        if step == "":
-            target = jsondata
-
-        else:
-            target = jsondata[step]
-
-    except IndexError as e:
-        raise JSONPathException(e)
-
-    return target
-    
