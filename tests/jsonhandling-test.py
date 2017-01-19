@@ -15,9 +15,15 @@ testf.equal(
     "Global match path"
 )
 
+testf.equal(
+    jh.splitPath("create[]"),
+    ["create",""],
+    "Single index all"
+)
+
 abeta = ["alpha","beta"]
 ducktruck = [
-        {"monster":"truck"},
+        {"munster":"truck"},
         {"munster":"duck"}
     ]
 
@@ -31,6 +37,11 @@ testf.equal(jh.readDataItem(jsondata, "a"), 1, "Read a data item")
 testf.equal(jh.readDataItem(jsondata, "b"), abeta, "Return an array from data item")
 testf.equal(jh.readDataItem(jsondata['b'], ""), abeta, "Return an array from data item (implicit 'all')")
 
-for path in ["a","b","c[]","c[1].munster"]:
-    print("-> "+path)
-    print("----> "+ str( jh.readDataTree( jsondata, path ) ))
+testf.equal(jh.getData(jsondata, "a"), 1, "Read int" )
+testf.equal(jh.getData(jsondata, "b"), abeta, "Read array" )
+testf.equal(jh.getData(jsondata, "b[]"), abeta, "Read array explicitly" )
+testf.equal(jh.getData(jsondata, "c[1].munster"), "duck", "Read beyond array" )
+
+sorteda = jh.getData(jsondata, "c[].munster")
+sorteda.sort()
+testf.equal(sorteda , ['duck','truck'], "Read array subitems multiple" )
