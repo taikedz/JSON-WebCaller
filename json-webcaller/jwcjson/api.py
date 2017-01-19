@@ -41,6 +41,9 @@ def request(key, actionprofile, artefacts, urimodifiers):
         if method == "GET":
             response = do_get(url,standard_headers)
 
+        elif method == "HEAD":
+            response = do_get(url,standard_headers)
+
         elif method == "POST":
             response = do_post(url, standard_headers, rdata)
 
@@ -58,6 +61,12 @@ def request(key, actionprofile, artefacts, urimodifiers):
         console.faile(str(e) )
         exit(127)
 
+
+def do_get(url,headers):
+    return requests.head(
+        url,
+        headers=headers
+        )
 
 def do_get(url,headers):
     return requests.get(
