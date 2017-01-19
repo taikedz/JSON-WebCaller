@@ -50,7 +50,7 @@ def request(key, actionprofile, artefacts, urimodifiers):
             raise WebAPIHTTPException("Unsupported HTTP method "+method)
 
         http_expect_class(200, response)
-        print( json.dumps(jsonfor(response), indent=2) )
+
     except Exception as e:
         console.faile(str(e) )
         exit(127)
@@ -78,13 +78,6 @@ def do_post(url, headers, data):
 def http_expect_class(classnum, responseobject):
     if responseobject.status_code - responseobject.status_code % 100 != classnum:
         raise WebAPIHTTPException(responseobject.reason+" // "+responseobject.text)
-
-def jsonfor(response):
-    try:
-        return response.json()
-    except ValueError as e:
-        console.printe(str(e) )
-    return ""
 
 def updateurl(url, rdata):
     for item in rdata:

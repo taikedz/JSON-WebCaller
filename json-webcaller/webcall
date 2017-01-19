@@ -51,7 +51,7 @@ if "api" not in doconfig.data.keys():
     console.faile("No API engine specified.")
     exit(3)
 elif doconfig.data["api"] == "json":
-    import jsonapi as webapi
+    from jwcjson import api as webapi
 else:
     console.faile("API engine "+doconfig.data["api"]+" not supported.")
     exit(4)

@@ -8,7 +8,7 @@
 			"method":"GET",
 			"output":{
 				"section":"body",
-				"filter":"json"
+				"filter":"json",
 				"patterns":[".droplets.name"]
 			}
 		},
@@ -20,7 +20,7 @@
 				"filter":"grep",
 				"pattern":"ratelimit"
 			}
-		}
+		},
 		"distros":{
 			"url":"https://api.digitalocean.com/v2/images?type=distribution&per_page=100",
 			"method":"GET"
