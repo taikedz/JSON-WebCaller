@@ -7,5 +7,5 @@ def equal( gotval, targetval, testname ):
         console.infoe("PASS "+testname)
         return True
     else:
-        console.faile("FAIL "+testname)
+        console.faile("FAIL %s - got: %s"%(testname, str(gotval)))
         return False

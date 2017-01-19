@@ -1,4 +1,5 @@
 import jsonfile
+import jsonhandling
 import sys
 import testf
 import console
@@ -13,11 +14,11 @@ testf.equal(jf.get("actions.destroy.requires[0]") , "id", "Nested value was read
 try:
     jf.get("actions.delete")
     console.faile("FAIL Descend into non-existent branch on read")
-except jsonfile.InvalidPathException as e:
+except jsonhandling.InvalidPathException as e:
     console.infoe("PASS Descend into non-existent branch on read")
 
-jsonfile.mergeArtefacts(jf.data, {"actions.create":"newdata"})
-testf.equal(jf.data["actions"]["create"], "newdata", "Assign new values")
+jf.set("actions.create","newdata")
+testf.equal(jf.get("actions.create"), "newdata", "Assign new values")
 
 jf.writefile()
 fh = jsonfile.JSONFile("demo.json")
